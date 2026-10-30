@@ -1,0 +1,7 @@
+# ไฟล์ตั้งค่าที่มีรหัสผ่านฐานข้อมูลจริง ห้าม push ขึ้น GitHub
+config/db.php
+
+# ไฟล์ของระบบปฏิบัติการ / editor
+.DS_Store
+Thumbs.db
+.vscode/

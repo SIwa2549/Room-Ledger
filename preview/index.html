@@ -1,0 +1,53 @@
+<title>บ้านพักสุขสบาย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<!-- CSS -->
+<link rel="stylesheet" href="../assets/css/app.css">
+
+<!--
+  preview/index.html — ต้นแบบหน้าจอ เปิดดูได้ด้วย XAMPP: http://localhost/dorm/preview/
+  เมื่อทำจริง: ย้าย <aside class="sidebar"> และ <nav class="bottom-nav"> ไปไว้ใน includes/layout.php
+-->
+<div class="app">
+  <!-- Sidebar (คอมพิวเตอร์) -->
+  <aside class="sidebar" aria-label="เมนูหลัก">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21V5l8-3 8 3v16"/><path d="M9 21v-5h6v5M8 8h2M14 8h2M8 12h2M14 12h2"/></svg></span>
+      <span><span class="brand-name" style="display:block">บ้านพักสุขสบาย</span><span class="brand-sub">18 ห้อง · 3 ชั้น</span></span>
+    </div>
+    <a class="nav-link" href="#dashboard" data-nav="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>ภาพรวม</a>
+    <a class="nav-link" href="#rooms" data-nav="rooms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17"/><path d="M3 21h18M15 12h.01"/></svg>ห้องพักและบิล</a>
+    <a class="nav-link" href="#tenants" data-nav="tenants"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>ผู้เช่า</a>
+    <a class="nav-link" href="#maintenance" data-nav="maintenance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>แจ้งซ่อม</a>
+    <a class="nav-link" href="#rates" data-nav="rates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>อัตราค่าบริการ</a>
+    <div class="sidebar-foot">
+      <span class="muted">admin@dorm.com</span>
+      <button class="btn btn-sm" type="button" data-logout>ออกจากระบบ</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="main-inner">
+      <p class="mock-note">หน้านี้ใช้ข้อมูลตัวอย่าง การแก้ไขจะหายเมื่อรีเฟรช และยังไม่ได้บันทึกลงฐานข้อมูล</p>
+      <div id="view" class="main-inner" style="gap:24px"></div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation (มือถือ) -->
+  <nav class="bottom-nav" aria-label="เมนูหลัก">
+    <a href="#dashboard" data-nav="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>ภาพรวม</a>
+    <a href="#rooms" data-nav="rooms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17"/><path d="M3 21h18M15 12h.01"/></svg>ห้องพัก</a>
+    <a href="#tenants" data-nav="tenants"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>ผู้เช่า</a>
+    <a href="#maintenance" data-nav="maintenance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>แจ้งซ่อม</a>
+    <a href="#rates" data-nav="rates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>อัตรา</a>
+  </nav>
+</div>
+
+<div id="backdrop" class="backdrop" hidden></div>
+<aside id="drawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" tabindex="-1" hidden></aside>
+<div id="toast" class="app-toast" role="status" hidden></div>
+
+<!-- JS -->
+<script src="../assets/js/app.js"></script>
