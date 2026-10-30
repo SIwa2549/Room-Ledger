@@ -365,7 +365,11 @@ td.right, th.right { text-align: right; }
   border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface);
   font-variant-numeric: tabular-nums;
 }
-.field input[aria-invalid="true"]:not([type="radio"]) { border-color: var(--overdue); }
+.field textarea {
+  min-height: 96px; padding: 10px 12px; box-sizing: border-box; width: 100%; resize: vertical;
+  border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); font: inherit;
+}
+.field input[aria-invalid="true"]:not([type="radio"]), .field textarea[aria-invalid="true"] { border-color: var(--overdue); }
 .field .error { font-size: var(--fs-xs); color: var(--overdue); }
 .field-row { display: grid; gap: 14px; }
 @media (min-width: 480px) { .field-row { grid-template-columns: 1fr 1fr; } }
@@ -433,3 +437,6 @@ a.debt-item { color: var(--ink); text-decoration: none; }
 .hint { font-size: var(--fs-xs); color: var(--ink-2); margin: 0; }
 main a:not([class]) { color: var(--rented); text-underline-offset: 2px; }
 main a:not([class]):hover { color: var(--ink); }
+
+/* รายการแจ้งซ่อม */
+.request-detail { white-space: pre-line; overflow-wrap: anywhere; max-width: 40ch; }

@@ -10,7 +10,7 @@
 $pageTitle = $pageTitle ?? 'ระบบจัดการหอพัก';
 $activeNav = $activeNav ?? '';
 
-// เมนูหลักแยกตามบทบาท: เจ้าของหอเห็นทุกเมนู ผู้เช่าเห็นเฉพาะบิลของตัวเอง
+// เมนูหลักแยกตามบทบาท: เจ้าของหอเห็นทุกเมนู ผู้เช่าเห็นเฉพาะบิลและการแจ้งซ่อมของตัวเอง
 // (url = null = หน้าที่ยังไม่เปิดใช้ จะแสดงเป็นเมนูจาง ๆ กดไม่ได้)
 $icon = [
     'dashboard' => '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
@@ -19,6 +19,7 @@ $icon = [
     'bills'     => '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
     'rates'     => '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
     'account'   => '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+    'requests'  => '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
 ];
 $isOwner = ($currentUser['role'] ?? 'owner') === 'owner';
 $navItems = $isOwner ? [
@@ -26,10 +27,12 @@ $navItems = $isOwner ? [
     'rooms'     => ['label' => 'ห้องพัก',          'short' => 'ห้องพัก', 'url' => 'rooms.php',     'icon' => $icon['rooms']],
     'tenants'   => ['label' => 'ผู้เช่า',           'short' => 'ผู้เช่า',  'url' => 'tenants.php',   'icon' => $icon['tenants']],
     'bills'     => ['label' => 'จดมิเตอร์และบิล',   'short' => 'บิล',     'url' => 'bills.php',     'icon' => $icon['bills']],
+    'requests'  => ['label' => 'แจ้งซ่อม',         'short' => 'แจ้งซ่อม', 'url' => 'requests.php',  'icon' => $icon['requests']],
     'rates'     => ['label' => 'อัตราค่าบริการ',    'short' => 'อัตรา',   'url' => 'rates.php',     'icon' => $icon['rates']],
     'account'   => ['label' => 'บัญชีของฉัน',      'short' => 'บัญชี',   'url' => 'account.php',   'icon' => $icon['account']],
 ] : [
     'my_bills'  => ['label' => 'บิลของฉัน',        'short' => 'บิลของฉัน', 'url' => 'my_bills.php', 'icon' => $icon['bills']],
+    'my_requests' => ['label' => 'แจ้งซ่อม',       'short' => 'แจ้งซ่อม',  'url' => 'my_requests.php', 'icon' => $icon['requests']],
     'account'   => ['label' => 'บัญชีของฉัน',      'short' => 'บัญชี',     'url' => 'account.php',  'icon' => $icon['account']],
 ];
 

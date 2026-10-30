@@ -14,6 +14,17 @@ const WATER_TYPE = [
     'meter'     => 'ตามมิเตอร์',
     'flat_rate' => 'เหมาจ่าย',
 ];
+const REQUEST_CATEGORY = [
+    'aircon'   => 'แอร์ / ล้างแอร์',
+    'plumbing' => 'ก๊อกน้ำ / ท่อรั่ว',
+    'water'    => 'น้ำไม่ไหล',
+    'electric' => 'ไฟฟ้า / หลอดไฟ',
+    'other'    => 'อื่น ๆ',
+];
+const REQUEST_STATUS = [
+    'pending' => 'รอดำเนินการ',
+    'done'    => 'เสร็จแล้ว',
+];
 
 /** แสดงข้อความลง HTML อย่างปลอดภัย (ป้องกัน XSS) ใช้ทุกครั้งที่ echo ข้อมูลจากผู้ใช้หรือฐานข้อมูล */
 function e($value): string

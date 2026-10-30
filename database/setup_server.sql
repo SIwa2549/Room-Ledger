@@ -1,9 +1,9 @@
 -- ============================================================
 -- ไฟล์: database/setup_server.sql  (เวอร์ชันสำหรับเซิร์ฟเวอร์ Angsila)
 -- ระบบจัดการหอพักและคำนวณบิลค่าเช่าออนไลน์
--- สร้างฐานข้อมูล 5 ตารางตาม ER Diagram ใน Proposal
+-- สร้างฐานข้อมูล 6 ตารางตาม ER Diagram ใน Proposal
 -- ทุกตารางขึ้นต้นด้วย project_ เพื่อไม่ชนกับตารางของ Lab อื่นในฐานข้อมูลเดียวกัน
--- project_users, project_rooms, project_tenants, project_bills, project_settings
+-- project_users, project_rooms, project_tenants, project_bills, project_settings, project_requests
 -- วิธีใช้: phpMyAdmin ของ Angsila > เลือกฐานข้อมูล s68160390 > แท็บ SQL > วางทั้งไฟล์ > Go
 -- (บนเครื่องตัวเองที่ใช้ XAMPP ให้ใช้ setup.sql แทน)
 -- คำเตือน: รันซ้ำแล้วข้อมูลเดิมทั้งหมดจะถูกลบและสร้างใหม่
@@ -13,6 +13,7 @@
 USE s68160390;
 
 -- ลบตารางลูกก่อนตารางแม่ (ตารางที่มี Foreign Key ต้องลบก่อน)
+DROP TABLE IF EXISTS project_requests;
 DROP TABLE IF EXISTS project_bills;
 DROP TABLE IF EXISTS project_settings;
 DROP TABLE IF EXISTS project_users;      -- users มี FK ไปที่ tenants จึงต้องลบก่อน tenants
@@ -117,6 +118,29 @@ CREATE TABLE project_settings (
         ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ------------------------------------------------------------
+-- project_requests : รายการแจ้งซ่อมจากผู้เช่า (แอร์ ก๊อกน้ำ น้ำไม่ไหล ฯลฯ)
+--   pending = รอดำเนินการ, done = เจ้าของหอกด "เสร็จแล้ว" (บันทึกเวลาและผู้ปิดงาน)
+-- CASCADE: ลบผู้เช่า (ได้เฉพาะคนที่ไม่มีบิล) รายการแจ้งซ่อมของคนนั้นถูกลบตามไปด้วย
+-- ------------------------------------------------------------
+CREATE TABLE project_requests (
+    id           INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    tenant_id    INT UNSIGNED NOT NULL,
+    category     ENUM('aircon','plumbing','water','electric','other') NOT NULL,
+    detail       VARCHAR(500) NOT NULL,
+    status       ENUM('pending','done') NOT NULL DEFAULT 'pending',
+    created_at   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    completed_at DATETIME     NULL DEFAULT NULL,
+    completed_by INT UNSIGNED NULL DEFAULT NULL,
+    PRIMARY KEY (id),
+    KEY idx_project_requests_tenant (tenant_id),
+    KEY idx_project_requests_status (status, created_at),
+    CONSTRAINT fk_project_requests_tenant FOREIGN KEY (tenant_id) REFERENCES project_tenants (id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_project_requests_user FOREIGN KEY (completed_by) REFERENCES project_users (id)
+        ON UPDATE CASCADE ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- FK จาก users ไป tenants ต้องเพิ่มหลังสร้าง project_tenants แล้ว
 -- CASCADE: ลบผู้เช่า (ได้เฉพาะคนที่ไม่มีบิล) บัญชีของผู้เช่าคนนั้นถูกลบตามไปด้วย
 ALTER TABLE project_users
@@ -198,3 +222,11 @@ INSERT INTO project_users (email, password_hash, role, tenant_id)
 SELECT CONCAT('room', r.room_number, '@dorm.com'), '$2y$10$EeBL8yiaWhkTDG6PweMz5uLO1o6mnIb7xejIvkUD7wk9vUqXi9gSe', 'tenant', t.id
 FROM project_tenants t JOIN project_rooms r ON r.id = t.room_id
 WHERE r.room_number IN ('101', '204') AND t.move_out_date IS NULL;
+
+-- ------------------------------------------------------------
+-- รายการแจ้งซ่อมตัวอย่าง (ห้อง 204 รอดำเนินการ 2 รายการ, ห้อง 101 เสร็จแล้ว 1 รายการ)
+-- ------------------------------------------------------------
+INSERT INTO project_requests (tenant_id, category, detail, status, created_at, completed_at, completed_by) VALUES
+(6, 'aircon',   'แอร์ไม่ค่อยเย็น มีน้ำหยดจากตัวเครื่อง อยากให้ล้างแอร์ครับ', 'pending', '2026-10-25 19:20:00', NULL, NULL),
+(6, 'plumbing', 'ก๊อกน้ำอ่างล้างหน้าปิดไม่สนิท น้ำหยดตลอด', 'pending', '2026-10-28 08:45:00', NULL, NULL),
+(1, 'water',    'น้ำในห้องน้ำไม่ไหลตั้งแต่เช้า', 'done', '2026-10-10 07:30:00', '2026-10-10 15:00:00', 1);
